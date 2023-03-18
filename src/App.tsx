@@ -93,7 +93,7 @@ function App() {
                 value="easy"
                 onChange={changeDiffuculty}
               />
-              <label>Easy</label>
+              <label htmlFor="easy">Easy</label>
             </div>
             <div>
               <input
@@ -103,7 +103,7 @@ function App() {
                 value="medium"
                 onChange={changeDiffuculty}
               />
-              <label>Medium</label>
+              <label htmlFor="medium">Medium</label>
             </div>
             <div>
               <input
@@ -113,7 +113,7 @@ function App() {
                 value="hard"
                 onChange={changeDiffuculty}
               />
-              <label>Hard</label>
+              <label htmlFor="hard">Hard</label>
             </div>
           </div>
         </div>
