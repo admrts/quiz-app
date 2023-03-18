@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import QuestionCard from "./components/QuestionCard";
-import { Diffuculty, fetchQuizQuestions, QuestionState } from "./API";
+import { fetchQuizQuestions, QuestionState } from "./API";
 
 export type AnswerObject = {
   question: string;
@@ -18,17 +18,19 @@ function App() {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
   const [correctAnswer, setCorrectAnswer] = useState("");
+  const [diffuculty, setDiffuculty] = useState("");
 
   console.log(questions);
+
+  const changeDiffuculty = (e: React.FormEvent<HTMLInputElement>) => {
+    setDiffuculty(e.currentTarget.value);
+  };
 
   const startTrivia = async () => {
     setLoading(true);
     setGameOver(false);
 
-    const newQuestions = await fetchQuizQuestions(
-      TOTAL_QUESTIONS,
-      Diffuculty.EASY
-    );
+    const newQuestions = await fetchQuizQuestions(TOTAL_QUESTIONS, diffuculty);
     setQuestions(newQuestions);
     setScore(0);
     setUserAnswers([]);
@@ -76,14 +78,48 @@ function App() {
 
   return (
     <div className="container">
-      <h1>REACT QUIZ</h1>
+      <h1>QUIZ APP</h1>
       {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-        <button className="start" onClick={startTrivia}>
-          Start
-        </button>
+        <div className="start-input-wrapper">
+          <button className="start" onClick={startTrivia}>
+            Start
+          </button>
+          <div className="input-wrapper">
+            <div>
+              <input
+                type="radio"
+                name="dif"
+                id="easy"
+                value="easy"
+                onChange={changeDiffuculty}
+              />
+              <label>Easy</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="dif"
+                id="medium"
+                value="medium"
+                onChange={changeDiffuculty}
+              />
+              <label>Medium</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="dif"
+                id="hard"
+                value="hard"
+                onChange={changeDiffuculty}
+              />
+              <label>Hard</label>
+            </div>
+          </div>
+        </div>
       ) : null}
       {!gameOver ? <p className="score">Score: {score}</p> : null}
-      {loading && <p>Loading Questions...</p>}
+      {loading && <p className="loading">Loading Questions...</p>}
       {!loading && !gameOver && (
         <QuestionCard
           questionNr={number + 1}
